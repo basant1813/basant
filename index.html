@@ -1,5 +1,4 @@
-
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -68,7 +67,7 @@ button{
 </div>
 
 <audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+  <source src="https://orangefreesounds.com/wp-content/uploads/2023/02/Romantic-background-music-intro.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -78,7 +77,7 @@ const area   = document.getElementById("area");
 const msg    = document.getElementById("msg");
 let tries = 0;
 
-/* NO button runs perfectly */
+/* NO button running */
 function moveNo(){
   const areaRect = area.getBoundingClientRect();
   const btnRect  = noBtn.getBoundingClientRect();
@@ -136,10 +135,10 @@ yesBtn.addEventListener("click", ()=>{
   music.play();
 });
 
-/* Helpers for after YES click */
+/* Helpers */
 function glowBackground(){document.body.style.background="linear-gradient(135deg,#ffe6f0,#fff0f5,#fff6cc)";}
 function heartbeat(){if(navigator.vibrate) navigator.vibrate([80,40,80,300,80]);}
-function switchMusic(){const music=document.getElementById("music"); music.pause(); music.src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"; music.volume=0.25; music.play();}
+function switchMusic(){const music=document.getElementById("music"); music.pause(); music.src="https://orangefreesounds.com/wp-content/uploads/2023/02/Romantic-background-music-intro.mp3"; music.volume=0.25; music.play();}
 function confetti(){for(let i=0;i<14;i++){const h=document.createElement("div"); h.innerText="💗"; h.style.position="fixed"; h.style.left="50vw"; h.style.top="50vh"; h.style.fontSize=Math.random()*14+14+"px"; h.style.transform=`translate(${Math.random()*260-130}px,${Math.random()*-260}px)`; h.style.transition="all 1.5s ease"; document.body.appendChild(h); setTimeout(()=>h.remove(),1500);}}
 
 /* Floating sparkles in background */
