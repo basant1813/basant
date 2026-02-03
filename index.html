@@ -1,101 +1,57 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Basant 💖</title>
+<title>Valentine 💗</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
+*{box-sizing:border-box; font-family:'Poppins', sans-serif;}
 body{
-  margin:0;
-  height:100vh;
-  background:linear-gradient(135deg,#ffe6f0,#fff6cc);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+  margin:0; min-height:100vh;
+  background:linear-gradient(135deg,#ffe6f0,#fff0f5,#fff6cc);
+  display:flex; justify-content:center; align-items:center;
+  overflow:hidden; position:relative;
 }
-
-/* floating hearts */
-.heart-float{
-  position:absolute;
-  font-size:18px;
-  animation:float 7s linear infinite;
-  opacity:.6;
-}
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0;}
-  20%{opacity:1;}
-  100%{transform:translateY(-10vh);opacity:0;}
-}
-
-/* card */
 .card{
-  background:white;
-  padding:34px;
-  border-radius:26px;
+  background:#fff;
+  padding:28px 24px;
+  border-radius:28px;
   text-align:center;
   width:90%;
   max-width:380px;
-  box-shadow:0 18px 35px rgba(0,0,0,.2);
-  z-index:2;
-}
-
-h1{ color:#ff6f91; }
-p{ font-size:17px; color:#666; }
-
-.buttons{
-  margin-top:28px;
+  box-shadow:0 20px 40px rgba(255,105,135,.35);
+  z-index:1;
   position:relative;
-  height:120px;
 }
+h1{color:#ff6f91;font-size:22px;}
+#msg{color:#555;font-size:15px;margin-top:8px;}
+.button-area{margin-top:26px; position:relative; height:140px;}
 button{
   padding:12px 26px;
   border:none;
   border-radius:30px;
   font-size:15px;
   cursor:pointer;
+  z-index:2;
 }
-#yesBtn{
-  background:#ffb6c1;
-  color:white;
+#yesBtn{background:#ff9eb5;color:#fff;position:relative;}
+#noBtn{background:#f2f2f2;position:absolute; left:50%; top:60%; transform:translate(-50%,-50%);}
+#teddy{font-size:56px; margin:10px 0; opacity:0; transform:scale(.6); transition:all .7s ease;}
+#secretMsg{margin-top:16px; font-size:15px; color:#ff6f91; display:none;}
+#finalLine{margin-top:14px; font-size:14px; color:#777; display:none;}
+.heart-frame{width:220px; aspect-ratio:1/1; margin:18px auto; background:#ffe6f0; overflow:hidden;
+  clip-path: polygon(50% 90%,5% 40%,20% 10%,50% 30%,80% 10%,95% 40%);
+  animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.heart-frame img{width:100%; height:100%; object-fit:contain; padding:10px;}
+.sparkle{
+  position:fixed; bottom:-20px; font-size:16px; animation:float 6s linear infinite; opacity:.7; pointer-events:none;
 }
-#noBtn{
-  background:#f2f2f2;
-  position:absolute;
-  left:50%;
-  top:65px;
-  transform:translateX(-50%);
-}
-
-/* ❤️ REAL HEART FRAME — PROFESSIONAL FIX */
-.heart-frame{
-  width:240px;
-  aspect-ratio: 1 / 1;
-  margin:20px auto;
-  background:#ffe6f0;
-  overflow:hidden;
-
-  /* heart shape */
-  clip-path: path(
-    "M120 210
-     C10 140, 10 40, 120 80
-     C230 40, 230 140, 120 210 Z"
-  );
-
-  box-shadow:0 15px 30px rgba(255,105,135,.35);
-}
-
-.heart-frame img{
-  width:100%;
-  height:100%;
-  object-fit:contain;   /* ✅ NO CUTTING */
-  padding:10px;
+@keyframes float{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(-110vh);}
 }
 </style>
 </head>
@@ -105,10 +61,9 @@ button{
 <div class="card">
   <h1>Hi Basant 🐻💗</h1>
   <p id="msg">Will you be my Valentine? 🌸</p>
-
-  <div class="buttons">
-    <button id="yesBtn" onclick="yesClicked()">Yes 🥰</button>
-    <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+  <div class="button-area" id="area">
+    <button id="yesBtn">Yes 🥰</button>
+    <button id="noBtn">No 🙈</button>
   </div>
 </div>
 
@@ -117,72 +72,86 @@ button{
 </audio>
 
 <script>
-/* floating hearts */
-function floatingHeart(){
-  const h=document.createElement("div");
-  h.className="heart-float";
-  h.innerText="💗";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=Math.random()*12+14+"px";
-  h.style.animationDuration=Math.random()*3+4+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
-}
-setInterval(floatingHeart,500);
+const yesBtn = document.getElementById("yesBtn");
+const noBtn  = document.getElementById("noBtn");
+const area   = document.getElementById("area");
+const msg    = document.getElementById("msg");
+let tries = 0;
 
-/* NO button */
-let count=0;
+/* NO button runs perfectly */
 function moveNo(){
-  const no=document.getElementById("noBtn");
-  count++;
-  no.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*90-45}px)`;
-
-  if(count===3) msg.innerText="Aww Basant 🥺 try again";
-  if(count===6) msg.innerText="No button is shy 🙈💗";
+  const areaRect = area.getBoundingClientRect();
+  const btnRect  = noBtn.getBoundingClientRect();
+  const maxX = areaRect.width - btnRect.width;
+  const maxY = areaRect.height - btnRect.height;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+  tries++;
+  if(tries===2) msg.innerText="😅 NO is running away!";
+  if(tries===4) msg.innerText="Basant… just press YES 😂";
+  if(tries===6) msg.innerText="Only YES is brave enough 🥹💗";
 }
+noBtn.addEventListener("mouseenter", moveNo); // desktop
+noBtn.addEventListener("touchstart", moveNo); // mobile
+noBtn.addEventListener("click", moveNo);       // backup
 
-/* YES */
-function yesClicked(){
-  const music=document.getElementById("music");
-  music.volume=0.3;
-  music.play();
+/* YES click */
+yesBtn.addEventListener("click", ()=>{
+  msg.innerText = "Yayyy 🥹💗 You made me very happy!";
+  noBtn.style.display = "none";
 
-  document.body.innerHTML=`
-  <div style="
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ffe6f0,#fff6cc);
-    padding:20px;
-  ">
-    <div style="
-      background:white;
-      padding:38px;
-      border-radius:28px;
-      box-shadow:0 18px 35px rgba(0,0,0,.25);
-      max-width:380px;
-      text-align:center;
-    ">
-      <h1 style="color:#ff6f91;">YAY Basant 🥹💖</h1>
-
-      <div class="heart-frame">
-        <img src="https://wallpapercave.com/wp/wp8412244.png" alt="Heart Photo">
-      </div>
-
-      <p>You just made my heart very happy 🌷</p>
-      <p>Happy Valentine’s Day 💐</p>
-
-      <p style="font-size:15px;color:#555;">
-        With love,<br><strong>Bhavisha 💕</strong>
-      </p>
-
-      <p style="font-size:13px;color:#888;">
-        (Screenshot this & send me 😌)
-      </p>
+  const card = document.querySelector('.card');
+  card.innerHTML = `
+    <h1>Aww Basant 🥹💗</h1>
+    <div class="heart-frame">
+      <img src="https://wallpapercave.com/wp/wp8412244.png">
     </div>
-  </div>`;
-}
+    <div id="teddy">🧸🤍</div>
+    <p>Come here… this is just a hug 🤍</p>
+    <button id="secretBtn" style="margin-top:14px;background:#ff9eb5;color:white;padding:12px 26px;border:none;border-radius:30px;font-size:14px;">Tap if you’re smiling 😌</button>
+    <p id="secretMsg">That smile of yours…<br>it’s my favorite thing 💗</p>
+    <p id="finalLine">No matter what… this moment is special to me 🌷 — Bhavisha 💕</p>
+    <p style="margin-top:12px;font-size:12px;color:#888;">(Screenshot this 🥹)</p>
+  `;
+
+  setTimeout(()=>{
+    document.getElementById("teddy").style.opacity="1";
+    document.getElementById("teddy").style.transform="scale(1)";
+  },400);
+
+  document.getElementById("secretBtn").addEventListener("click",()=>{
+    document.getElementById("secretMsg").style.display="block";
+    document.getElementById("finalLine").style.display="block";
+    document.getElementById("secretBtn").style.display="none";
+    glowBackground();
+    heartbeat();
+    switchMusic();
+    confetti();
+  });
+
+  const music=document.getElementById("music");
+  music.volume=0.2;
+  music.play();
+});
+
+/* Helpers for after YES click */
+function glowBackground(){document.body.style.background="linear-gradient(135deg,#ffe6f0,#fff0f5,#fff6cc)";}
+function heartbeat(){if(navigator.vibrate) navigator.vibrate([80,40,80,300,80]);}
+function switchMusic(){const music=document.getElementById("music"); music.pause(); music.src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"; music.volume=0.25; music.play();}
+function confetti(){for(let i=0;i<14;i++){const h=document.createElement("div"); h.innerText="💗"; h.style.position="fixed"; h.style.left="50vw"; h.style.top="50vh"; h.style.fontSize=Math.random()*14+14+"px"; h.style.transform=`translate(${Math.random()*260-130}px,${Math.random()*-260}px)`; h.style.transition="all 1.5s ease"; document.body.appendChild(h); setTimeout(()=>h.remove(),1500);}}
+
+/* Floating sparkles in background */
+setInterval(()=>{
+  const s = document.createElement("div");
+  s.className="sparkle";
+  s.innerText = Math.random()>.5?"💗":"✨";
+  s.style.left = Math.random()*100+"vw";
+  s.style.fontSize = Math.random()*10+14+"px";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),6000);
+},500);
 </script>
 
 </body>
